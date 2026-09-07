@@ -1,0 +1,285 @@
+---
+interface Props { variant?: 'full' | 'compact'; }
+const { variant = 'full' } = Astro.props;
+
+const COLUMNS = [
+  { key: 'todo', label: 'To do' },
+  { key: 'doing', label: 'Ongoing' },
+  { key: 'done', label: 'Done' },
+];
+
+// The verb bank: pick the row that matches where the work actually is.
+const VERBS = [
+  { phase: 'Explore', verbs: ['list', 'note', 'annotate', 'define', 'sketch'] },
+  { phase: 'Review', verbs: ['identify', 'classify', 'summarise', 'link'] },
+  { phase: 'Pre-write', verbs: ['plan', 'scope', 'order', 'outline'] },
+  { phase: 'Write', verbs: ['draft', 'introduce', 'elaborate', 'illustrate', 'conclude'] },
+  { phase: 'Rewrite', verbs: ['reformulate', 'question', 'compare', 'tighten'] },
+  { phase: 'Revise', verbs: ['check', 'correct', 'standardise'] },
+];
+---
+<section class:list={['goal-board', variant]} data-goal-board data-variant={variant}>
+  <form class="gb-add" data-gb-form>
+    <input
+      type="text"
+      data-gb-input
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="Your goal for the next pomodoro"
+      placeholder="Draft 300 words of the methods intro"
+    />
+    <button class="primary" type="submit">Add goal</button>
+  </form>
+
+  {variant === 'full' && (
+    <>
+      <p class="gb-formula">
+        <strong>verb</strong> + <strong>deliverable</strong> + <strong>size</strong> — one pomodoro's
+        worth. <em>Could someone who isn't you say whether it got done?</em> If not, sharpen it.
+      </p>
+      <details class="gb-verbs">
+        <summary>Stuck on a verb?</summary>
+        <div class="gb-verb-rows">
+          {VERBS.map((row) => (
+            <p>
+              <span class="gb-phase">{row.phase}</span>
+              {row.verbs.map((v) => (
+                <button type="button" class="gb-chip" data-gb-verb={v}>{v}</button>
+              ))}
+            </p>
+          ))}
+        </div>
+        <p class="gb-verb-note">
+          A lot of stalled writing is someone trying to <em>write</em> when they're still in
+          <em>explore</em>. Pick the row you're actually in.
+        </p>
+      </details>
+    </>
+  )}
+
+  <div class="gb-cols">
+    {COLUMNS.map((c) => (
+      <div class="gb-col" data-gb-col={c.key}>
+        <h3>{c.label} <span class="gb-count" data-gb-count>0</span></h3>
+        <ul data-gb-list aria-label={c.label}></ul>
+        <p class="gb-empty" data-gb-empty>
+          {c.key === 'todo' ? 'Nothing yet.' : c.key === 'doing' ? 'Nothing in flight.' : 'Nothing shipped yet.'}
+        </p>
+      </div>
+    ))}
+  </div>
+
+  <p class="gb-foot">
+    <span data-gb-summary></span>
+    <button type="button" class="gb-link" data-gb-clear-done>Clear done</button>
+    <button type="button" class="gb-link danger" data-gb-reset>Start a new session</button>
+    {variant === 'compact' && <a class="gb-link" href="/board/">Open the full board →</a>}
+  </p>
+  <p class="gb-note">Saved in this browser only — nothing is sent anywhere, and it's still here tomorrow.</p>
+</section>
+
+<script>
+  const KEY = 'wagademy:board:v1';
+  const COLS = ['todo', 'doing', 'done'];
+
+  function load() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(KEY) || '[]');
+      if (!Array.isArray(raw)) return [];
+      return raw.filter((g) => g && typeof g.text === 'string' && COLS.indexOf(g.col) > -1);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function save(goals) {
+    try { localStorage.setItem(KEY, JSON.stringify(goals)); } catch (e) {}
+  }
+
+  let goals = load();
+
+  const boards = Array.from(document.querySelectorAll('[data-goal-board]'));
+  if (boards.length) {
+    boards.forEach(wire);
+    renderAll();
+
+    // Keep a second tab (or the compact board on another page) in step.
+    window.addEventListener('storage', function (e) {
+      if (e.key !== KEY) return;
+      goals = load();
+      renderAll();
+    });
+  }
+
+  function commit() {
+    save(goals);
+    renderAll();
+  }
+
+  function renderAll() {
+    boards.forEach(render);
+  }
+
+  function render(board) {
+    COLS.forEach(function (col) {
+      const wrap = board.querySelector('[data-gb-col="' + col + '"]');
+      if (!wrap) return;
+      const list = wrap.querySelector('[data-gb-list]');
+      const mine = goals.filter(function (g) { return g.col === col; });
+      list.textContent = '';
+      mine.forEach(function (g) { list.appendChild(card(g)); });
+      wrap.querySelector('[data-gb-count]').textContent = String(mine.length);
+      wrap.querySelector('[data-gb-empty]').hidden = mine.length > 0;
+    });
+
+    const done = goals.filter(function (g) { return g.col === 'done'; }).length;
+    const summary = board.querySelector('[data-gb-summary]');
+    if (summary) {
+      summary.textContent = goals.length === 0
+        ? ''
+        : done + ' of ' + goals.length + ' done';
+    }
+    const foot = board.querySelector('.gb-foot');
+    if (foot) foot.classList.toggle('empty', goals.length === 0);
+  }
+
+  function card(goal) {
+    const li = document.createElement('li');
+    li.className = 'gb-card' + (goal.col === 'done' ? ' is-done' : '');
+    li.draggable = true;
+    li.dataset.id = goal.id;
+    li.addEventListener('dragstart', function (e) {
+      li.classList.add('dragging');
+      if (e.dataTransfer) {
+        e.dataTransfer.setData('text/plain', goal.id);
+        e.dataTransfer.effectAllowed = 'move';
+      }
+    });
+    li.addEventListener('dragend', function () { li.classList.remove('dragging'); });
+
+    const text = document.createElement('span');
+    text.className = 'gb-text';
+    text.textContent = goal.text;
+    li.appendChild(text);
+
+    const tools = document.createElement('span');
+    tools.className = 'gb-tools';
+    const i = COLS.indexOf(goal.col);
+    tools.appendChild(moveBtn(goal, i - 1, '‹', 'Move left'));
+    tools.appendChild(moveBtn(goal, i + 1, '›', 'Move right'));
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'gb-btn gb-del';
+    del.textContent = '×';
+    del.title = 'Remove';
+    del.setAttribute('aria-label', 'Remove: ' + goal.text);
+    del.addEventListener('click', function () {
+      goals = goals.filter(function (g) { return g.id !== goal.id; });
+      commit();
+    });
+    tools.appendChild(del);
+    li.appendChild(tools);
+    return li;
+  }
+
+  function moveBtn(goal, target, glyph, label) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'gb-btn';
+    b.textContent = glyph;
+    b.title = label;
+    b.setAttribute('aria-label', label + ': ' + goal.text);
+    if (target < 0 || target >= COLS.length) {
+      b.disabled = true;
+    } else {
+      b.addEventListener('click', function () { move(goal.id, COLS[target]); });
+    }
+    return b;
+  }
+
+  function move(id, col) {
+    const g = goals.find(function (x) { return x.id === id; });
+    if (!g || g.col === col) return;
+    g.col = col;
+    // Moving a card sends it to the end of its new column, like a real sticky.
+    goals = goals.filter(function (x) { return x.id !== id; }).concat([g]);
+    commit();
+  }
+
+  function wire(board) {
+    const form = board.querySelector('[data-gb-form]');
+    const input = board.querySelector('[data-gb-input]');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      goals = goals.concat([{
+        id: 'g' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+        text: text.slice(0, 240),
+        col: 'todo',
+      }]);
+      input.value = '';
+      commit();
+      input.focus();
+    });
+
+    board.querySelectorAll('[data-gb-verb]').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        const verb = chip.getAttribute('data-gb-verb');
+        const rest = input.value.trim().replace(/^\S+\s*/, function (m) {
+          // Replace an existing leading verb only if it looks like one we offered.
+          return board.querySelector('[data-gb-verb="' + m.trim() + '"]') ? '' : m;
+        });
+        input.value = (verb + ' ' + rest).trim() + ' ';
+        input.focus();
+      });
+    });
+
+    board.querySelectorAll('[data-gb-col]').forEach(function (col) {
+      const key = col.getAttribute('data-gb-col');
+      col.addEventListener('dragover', function (e) {
+        e.preventDefault();
+        if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+        col.classList.add('over');
+      });
+      col.addEventListener('dragleave', function () { col.classList.remove('over'); });
+      col.addEventListener('drop', function (e) {
+        e.preventDefault();
+        col.classList.remove('over');
+        const id = e.dataTransfer && e.dataTransfer.getData('text/plain');
+        if (id) move(id, key);
+      });
+    });
+
+    const clearDone = board.querySelector('[data-gb-clear-done]');
+    clearDone.addEventListener('click', function () {
+      goals = goals.filter(function (g) { return g.col !== 'done'; });
+      commit();
+    });
+
+    // Two-click reset rather than a confirm() dialog.
+    const reset = board.querySelector('[data-gb-reset]');
+    let armed = false;
+    let timer;
+    reset.addEventListener('click', function () {
+      if (!armed) {
+        armed = true;
+        reset.textContent = 'Clear everything?';
+        reset.classList.add('armed');
+        timer = setTimeout(function () {
+          armed = false;
+          reset.textContent = 'Start a new session';
+          reset.classList.remove('armed');
+        }, 4000);
+        return;
+      }
+      clearTimeout(timer);
+      armed = false;
+      reset.textContent = 'Start a new session';
+      reset.classList.remove('armed');
+      goals = [];
+      commit();
+    });
+  }
+</script>

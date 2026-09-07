@@ -1,0 +1,12 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { topic: CollectionEntry<'topics'>; }
+const { topic } = Astro.props;
+const d = topic.data;
+---
+<a class="card" href={`/topics/${topic.id}/`}>
+  <span class="num">{d.strand} · {d.minutes} min</span>
+  {d.kind === 'hands-on' && <span class="badge hands-on" style="margin-left:.5rem">Hands-on</span>}
+  <h3>{d.title}</h3>
+  <p>{d.blurb}</p>
+</a>

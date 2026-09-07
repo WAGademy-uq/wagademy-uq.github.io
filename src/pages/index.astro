@@ -1,20 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-const sessions = (await getCollection('sessions')).sort((a, b) => a.data.number - b.data.number);
+import { sorted } from '../lib/topics';
+import TopicCard from '../components/TopicCard.astro';
+
+const topics = sorted(await getCollection('topics'));
 ---
-<Base title="WAGademy — a self-paced course on getting research done">
+<Base title="WAGademy — protected time to get research done">
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">Six sessions · at your own pace</p>
+      <p class="eyebrow">Commit · work · report</p>
       <h1>The thesis isn't writing itself.</h1>
       <p>
-        WAGademy started as a six-week Working Accountability Group for HDR students at UQ:
-        a themed discussion, then three hours of focused work, alongside other people doing the same.
-        This is the whole thing, written up so you can work through it alone — or run it for your own group.
+        WAGademy is a Working Accountability Group for HDR students, run in the Imaging, Sensing and
+        Biomedical Engineering discipline at UQ: protected hours of focused work, alongside other
+        people doing the same. Everything needed to run one — or to run it alone — is here.
       </p>
       <div class="btn-row">
-        <a class="btn" href="/sessions/1/">Start with session 1</a>
+        <a class="btn" href="/board/">Set your goals</a>
         <a class="btn ghost" style="border-color:var(--cream);color:var(--cream)" href="/timer/">Open the timer</a>
       </div>
     </div>
@@ -22,41 +25,54 @@ const sessions = (await getCollection('sessions')).sort((a, b) => a.data.number 
 
   <div class="wrap">
     <div class="prose">
-      <h2>How to use this</h2>
-      <p>
-        Each session is a short read — twenty to thirty minutes — followed by something concrete to do.
-        They stand alone, so you can jump to whichever problem is currently yours. But the order isn't
-        arbitrary: session 1 sets up the goal-setting method the rest assume.
-      </p>
-      <p>
-        <a href="/sessions/4/">Session 4</a> is different. It's a hands-on walkthrough: work through it at a
-        laptop for an hour and you finish with a real project on GitHub, a sane folder structure and a README.
-      </p>
-    </div>
-
-    <h2>The six sessions</h2>
-    <div class="grid">
-      {sessions.map((s) => (
-        <a class="card" href={`/sessions/${s.data.number}/`}>
-          <span class="num">Session {s.data.number} · {s.data.minutes} min</span>
-          {s.data.kind === 'hands-on' && <span class="badge hands-on" style="margin-left:.5rem">Hands-on</span>}
-          <h3>{s.data.title}</h3>
-          <p>{s.data.blurb}</p>
-        </a>
-      ))}
-    </div>
-
-    <div class="prose">
       <h2>The method, in three steps</h2>
       <ol>
-        <li><strong>Commit.</strong> Say your goals out loud, and write them somewhere visible.</li>
+        <li><strong>Commit.</strong> Say your goals out loud, and put them somewhere visible.</li>
         <li><strong>Work.</strong> Three 50-minute pomodoros, phones away, alongside other people.</li>
         <li><strong>Report.</strong> Did you hit it? What got in the way? No judgment — it's data.</li>
       </ol>
       <p>
-        That's it. Everything else on this site is detail. If you want to run this for your own group,
-        <a href="/run-your-own/">here's how</a> — it needs a room, a timer, and three other people.
+        That's the whole thing. It needs a room, a timer and three other people — and it works with
+        no material at all. <a href="/about/">Why it works</a> is worth five minutes if you're not
+        yet convinced; <a href="/run-your-own/">Run your own</a> is the run sheet if you are.
       </p>
+    </div>
+
+    <h2>Two tools</h2>
+    <div class="grid">
+      <a class="card" href="/board/">
+        <span class="num">Before you start</span>
+        <h3>Goal board</h3>
+        <p>
+          Write what you're doing in the next pomodoro — verb, deliverable, size — and drag it to
+          Done when it is. Saved in your browser between sessions.
+        </p>
+      </a>
+      <a class="card" href="/timer/">
+        <span class="num">While you work</span>
+        <h3>Session timer</h3>
+        <p>
+          Three 50-minute blocks with real breaks and a report-back, or the classic 25-on/5-off
+          rhythm. Built for the big screen; works offline.
+        </p>
+      </a>
+    </div>
+
+    <div class="prose">
+      <h2>Topics</h2>
+      <p>
+        Optional. A session runs fine without one, but a short themed discussion is what gets people
+        through the door the first time — and it's what turns three hours of silence into something
+        people look forward to.
+      </p>
+      <p>
+        Each is a twenty-to-thirty minute read plus something concrete to do. There's no order and no
+        thread: take whichever problem is currently yours. The list grows as topics get written.
+      </p>
+    </div>
+
+    <div class="grid">
+      {topics.map((t) => <TopicCard topic={t} />)}
     </div>
   </div>
 </Base>

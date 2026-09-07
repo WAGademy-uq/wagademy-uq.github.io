@@ -1,10 +1,12 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const sessions = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/sessions' }),
+// Topics are the optional themed material. They have no order and no thread —
+// a WAGademy session runs perfectly well without any of them. Add a file to
+// src/content/topics/ and it appears everywhere by itself.
+const topics = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/topics' }),
   schema: z.object({
-    number: z.number(),
     title: z.string(),
     subtitle: z.string(),
     strand: z.string(),
@@ -15,4 +17,4 @@ const sessions = defineCollection({
   }),
 });
 
-export const collections = { sessions };
+export const collections = { topics };

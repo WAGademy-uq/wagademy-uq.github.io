@@ -8,6 +8,7 @@ const groups = [
       ['Chrono Thèsez-vous', 'https://chrono.thesez-vous.org/', 'Collective pomodoros with people around the world (French). A decent substitute for a room.'],
       ['Jardin Thèsez-vous', 'https://jardin.thesez-vous.org/', 'A pomodoro counter that grows a garden — useful for seeing that you did, in fact, do some work (French).'],
       ['The WAGademy timer', '/timer/', 'The one from the room: three pomodoros, breaks and a report-back, on one screen.'],
+      ['The WAGademy goal board', '/board/', 'Three columns and a pile of stickies. Write the goal, drag it to Done, saved in your browser.'],
     ],
   },
   {
@@ -41,19 +42,18 @@ const groups = [
   {
     heading: 'Supervision and peer review',
     items: [
-      ['Thèsez-vous — la relation avec la direction', 'https://www.thesez-vous.com/ressources', 'Where the "make the implicit explicit" framing in session 5 comes from (French).'],
       ['eLife peer review', 'https://elifesciences.org/', 'Publishes its reviews and author responses. Half an hour reading these demystifies the whole process.'],
       ['PeerJ open review', 'https://peerj.com/', 'Also publishes review histories, across a wide range of fields.'],
     ],
   },
 ];
 ---
-<Base title="Resources — WAGademy" description="Every tool and link from the six WAGademy sessions, in one place.">
+<Base title="Resources — WAGademy" description="Every tool and link from the WAGademy topics, in one place.">
   <div class="wrap">
     <div class="prose">
       <p class="eyebrow">Reference</p>
       <h1>Resources</h1>
-      <p class="lede">Everything mentioned across the six sessions, in one place. All free, or free enough.</p>
+      <p class="lede">Everything mentioned across the topics, in one place. All free, or free enough.</p>
     </div>
 
     {groups.map((g) => (

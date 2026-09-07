@@ -1,5 +1,4 @@
 ---
-number: 4
 title: "Reproducible research"
 subtitle: "Data, code and file sanity — because future-you is your most important collaborator."
 strand: "Research skills"
@@ -277,6 +276,6 @@ Branches, merges and pull requests matter when you collaborate. Learn them when 
 - **[UQ Research Data Manager](https://research.uq.edu.au/rmbt/uqrdm)** — where UQ research data is supposed to live. GitHub is for code; RDM is for the data itself.
 - **Data management plan** — most institutions require one and most people write it at the end. Writing it first takes an hour and answers half the questions above.
 
-## What's next
+## Where to go next
 
-Session 5 leaves the laptop behind: supervisors, feedback and meetings, and the fact that the relationship is a skill rather than a lottery.
+[Managing up](/topics/managing-up/) leaves the laptop behind: supervisors, feedback and meetings, and the fact that the relationship is a skill rather than a lottery.

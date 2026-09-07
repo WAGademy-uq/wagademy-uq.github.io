@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import GoalBoard from '../components/GoalBoard.astro';
+---
+<Base
+  title="Goal board — WAGademy"
+  description="Write your session goals in verb + deliverable + size form and drag them from To do to Done. Saved in your browser."
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Tool</p>
+      <h1>Goal board</h1>
+      <p>
+        Three columns and a pile of stickies — the board from the room, in your browser.
+        Write what you're doing in the next pomodoro, then drag it across when it's done.
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <GoalBoard variant="full" />
+
+    <article class="prose">
+      <h2>Writing goals that actually work</h2>
+      <p>
+        This is the part most people get wrong, and it is the difference between a productive
+        session and a vague one.
+      </p>
+      <p>
+        <strong>Vague goals fail invisibly.</strong> "Work on my thesis." "Read some papers."
+        "Do analysis." At the end of the session you can't say whether you succeeded, so you learn
+        nothing and feel bad anyway.
+      </p>
+      <p>
+        <strong>Specific goals are checkable.</strong> "Draft 300 words of the methods intro."
+        "Read and take notes on three papers about X." "Code the data-cleaning step for dataset Y."
+      </p>
+
+      <blockquote><strong>VERB</strong> + <strong>DELIVERABLE</strong> + <strong>SIZE</strong></blockquote>
+
+      <ul>
+        <li><strong>Verb</strong> — draft, code, plot, outline, revise, annotate</li>
+        <li><strong>Deliverable</strong> — the thing a stranger could point at</li>
+        <li><strong>Size</strong> — sized to fit one pomodoro of 45–50 minutes</li>
+      </ul>
+
+      <p><em>"Revise two paragraphs of discussion §4.2 using Tuesday's feedback."</em></p>
+
+      <p>
+        <strong>The stranger test:</strong> could someone who isn't you verify it got done?
+        If not, sharpen it. Most first attempts fail this test — that's normal, and catching it
+        now is the whole point.
+      </p>
+
+      <div class="callout do">
+        <h3>Do this now — 5 minutes</h3>
+        <p>
+          Add three goals above, one per pomodoro, each in verb + deliverable + size form. Run each
+          through the stranger test before you start the timer.
+        </p>
+        <p>
+          Then decide your <strong>distraction plan</strong> — what you'll do when you're tempted to
+          check email. "Write the thought down and keep going" works considerably better than "resist".
+        </p>
+      </div>
+
+      <h2>Why moving them by hand matters</h2>
+      <p>
+        In the live sessions we run a shared board with these same three columns, one sticky per
+        objective and a colour per person, dragged across as the session goes.
+      </p>
+      <p>
+        It sounds trivial. It isn't: moving a sticky to <em>Done</em> is a small, real reward at the
+        exact moment the work finishes, and over a series the board becomes a visible log of
+        everything the group shipped. Working alone, a paper sticky on the edge of your screen does
+        the same job. The requirement is only that the goals are <strong>visible and moved by
+        hand</strong> — not buried in a task app you'll stop opening.
+      </p>
+
+      <h2>The report-back</h2>
+      <p>
+        At the end of a session, look at what's still sitting in <em>To do</em> and ask why —
+        out loud, to someone, if there is someone. A missed goal is not a confession. It is evidence
+        of how long your work actually takes, which is the single most useful thing a research
+        student can learn, and the reason the next session's goals will be better than this one's.
+      </p>
+
+      <div class="callout">
+        <p>
+          <strong>This board lives in your browser.</strong> Nothing is sent anywhere and nothing is
+          shared — which also means it won't follow you to another device, and clearing your site
+          data clears it. For a group, put this on the shared screen, or use real sticky notes.
+        </p>
+      </div>
+
+      <p style="margin-top:2rem">
+        <a class="btn" href="/timer/">Open the timer</a>
+      </p>
+    </article>
+  </div>
+</Base>

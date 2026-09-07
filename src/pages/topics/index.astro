@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { sorted } from '../../lib/topics';
+import TopicCard from '../../components/TopicCard.astro';
+
+const topics = sorted(await getCollection('topics'));
+---
+<Base
+  title="Topics — WAGademy"
+  description="The themed discussions that go with a WAGademy session. No order, no thread — pick the one that matches the problem you have this week."
+>
+  <div class="wrap">
+    <div class="prose">
+      <p class="eyebrow">The library</p>
+      <h1>Topics</h1>
+      <p class="lede">
+        A short read plus something concrete to do — about half an hour each. They're independent:
+        pick whichever problem is currently yours.
+      </p>
+      <p>
+        A <a href="/run-your-own/">WAGademy session</a> works with none of these. The format is
+        commit, work, report; a topic is the thirty minutes of discussion you can put in front of
+        it when you want one. New topics get added as they get written.
+      </p>
+    </div>
+
+    <div class="grid" style="margin-top:2.5rem">
+      {topics.map((t) => <TopicCard topic={t} />)}
+    </div>
+
+    <div class="prose" style="margin-top:3rem">
+      <div class="callout">
+        <p>
+          <strong>Got a topic you'd run?</strong> The material here is whatever has been written up
+          so far, not a fixed syllabus. If there's something your group needs and it isn't here,
+          <a href="mailto:m.massontrottier@uq.edu.au">tell me</a> — or write it and send it over.
+        </p>
+      </div>
+    </div>
+  </div>
+</Base>

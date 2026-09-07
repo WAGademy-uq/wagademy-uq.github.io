@@ -1,5 +1,4 @@
 ---
-number: 5
 title: "Managing up"
 subtitle: "Supervisors, feedback and meetings — the relationship is a skill, not a lottery."
 strand: "Career & wellbeing"
@@ -20,11 +19,11 @@ The four situations that come up in every room where this gets discussed:
 
 ## Make the implicit explicit
 
-The Thèsez-vous framing, and the single most useful idea in this session: nearly everything that goes wrong here goes wrong because something reasonable was never said out loud.
+The single most useful idea in this session: nearly everything that goes wrong here goes wrong because something reasonable was never said out loud.
 
 ### Negotiate the ground rules
 
-Thèsez-vous names two essentials to agree explicitly:
+Two things are worth agreeing on explicitly, early, and in writing:
 
 1. **The hours you'll devote to each activity** — writing, lab work, teaching, the side project they keep suggesting.
 2. **When and how often you'll show progress** — weekly email, monthly meeting, chapter by chapter.
@@ -79,7 +78,7 @@ NEED FROM YOU
 
 **2. Draft one scoped feedback ask.** Take the thing you're about to send and replace "let me know what you think" with a question that names the section and the kind of feedback you want.
 
-**3. Answer the two Thèsez-vous questions for yourself** — how many hours on what, and how often you'll show progress — then put them on the agenda as something to confirm. If your answer and theirs differ, you've just found the thing that was going to cause trouble in month nine.
+**3. Answer the two ground-rule questions for yourself** — how many hours on what, and how often you'll show progress — then put them on the agenda as something to confirm. If your answer and theirs differ, you've just found the thing that was going to cause trouble in month nine.
 
 </div>
 
@@ -97,6 +96,6 @@ NEED FROM YOU
 
 > That's an interesting angle. Before I take it on — is it essential for the thesis argument, or a good idea for a later paper? I'm trying to keep [current chapter] on track for [date], and I'd rather park it deliberately than let it drift.
 
-## What's next
+## Where to go next
 
-Session 6, the last one: what actually happens to a paper after you submit it, and how to write a response to reviewers — including Reviewer 2.
+[Surviving peer review](/topics/surviving-peer-review/) is the same idea aimed outward: what actually happens to a paper after you submit it, and how to write a response to reviewers — including Reviewer 2.

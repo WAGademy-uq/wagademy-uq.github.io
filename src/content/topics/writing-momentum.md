@@ -1,5 +1,4 @@
 ---
-number: 2
 title: "Writing momentum"
 subtitle: "The draft doesn't have to be good. It has to exist."
 strand: "Writing"
@@ -75,8 +74,8 @@ Instead of sending a draft with "let me know what you think" — which invites j
 - "This is a rough first pass, I know the prose is loose — I'd like feedback on structure only."
 - "I'm unsure about the framing in the introduction. The rest can wait."
 
-A scoped ask gets you more useful feedback *and* makes the draft feel less like a verdict. There's more on this in [Session 5](/sessions/5/).
+A scoped ask gets you more useful feedback *and* makes the draft feel less like a verdict. There's more on this in [Managing up](/topics/managing-up/).
 
-## What's next
+## Where to go next
 
-Session 3 is about the thing that eats the writing time: the literature, and how to read strategically instead of exhaustively.
+If the thing eating the writing time is the reading, [Taming the literature](/topics/taming-the-literature/) is the one to do next. If it's the feedback loop with your supervisor, that's [Managing up](/topics/managing-up/).

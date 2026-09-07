@@ -1,14 +1,16 @@
 ---
 import '../styles/global.css';
 interface Props { title: string; description?: string; }
-const { title, description = 'A six-part self-paced course on getting research work done — the ISB WAGademy Working Accountability Group, opened up for anyone.' } = Astro.props;
+const { title, description = 'A Working Accountability Group for research students, run at UQ and written up so anyone can run one: the format, the timer, the goal board, and a growing library of topics.' } = Astro.props;
 const path = Astro.url.pathname;
 const nav = [
   { href: '/', label: 'Home' },
-  { href: '/sessions/', label: 'Sessions' },
+  { href: '/topics/', label: 'Topics' },
+  { href: '/board/', label: 'Board' },
   { href: '/timer/', label: 'Timer' },
   { href: '/run-your-own/', label: 'Run your own' },
   { href: '/resources/', label: 'Resources' },
+  { href: '/about/', label: 'About' },
 ];
 const isCurrent = (href: string) => href === '/' ? path === '/' : path.startsWith(href);
 ---
@@ -38,8 +40,9 @@ const isCurrent = (href: string) => href === '/' ? path === '/' : path.startsWit
     <main><slot /></main>
     <footer class="site-foot">
       <div class="wrap">
-        <p><strong style="color:var(--amber)">WAGademy</strong> — a Working Accountability Group for HDR students, started in the School of Biomedical Sciences at UQ and shared here so anyone can run one.</p>
-        <p>Material adapted, with thanks, from the <a href="https://www.thesez-vous.com/">Thèsez-vous</a> approach to structured writing retreats. Free to reuse and adapt.</p>
+        <p><strong style="color:var(--amber)">WAGademy</strong> — a Working Accountability Group for HDR students, run in the Imaging, Sensing and Biomedical Engineering discipline, School of Electrical Engineering and Computer Science, at The University of Queensland — and written up here so anyone can run one.</p>
+        <p>Written and facilitated by Michèle Masson-Trottier · <a href="mailto:m.massontrottier@uq.edu.au">m.massontrottier@uq.edu.au</a></p>
+        <p>Built from what actually works in the room, with thanks to the wider structured-writing community — <a href="https://www.thesez-vous.com/">Thèsez-vous</a>, Shut Up &amp; Write and the many people who have written about research writing habits. Free to reuse and adapt: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
       </div>
     </footer>
     <script is:inline>

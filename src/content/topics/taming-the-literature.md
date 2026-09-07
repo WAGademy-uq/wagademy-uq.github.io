@@ -1,5 +1,4 @@
 ---
-number: 3
 title: "Taming the literature"
 subtitle: "Read strategically, keep notes you'll actually reuse, and stop drowning."
 strand: "Research skills"
@@ -83,6 +82,6 @@ Neither of these is "I've read everything." Nobody has read everything.
 - **[SciSpace](https://scispace.com/)** — AI-assisted reading and literature exploration. Useful for orientation; verify everything it tells you against the actual paper.
 - **[Litmaps](https://www.litmaps.com/)** and **[Research Rabbit](https://www.researchrabbit.ai/)** — similar citation-graph tools, both with free tiers.
 
-## What's next
+## Where to go next
 
-Session 4 is the hands-on one: getting your data, code and files into a state where your analysis can be re-run — by a reviewer, by a collaborator, or by you in eighteen months.
+If the notes are under control but the *files* aren't, [Reproducible research](/topics/reproducible-research/) is the hands-on one: an hour at a laptop and your analysis can be re-run — by a reviewer, by a collaborator, or by you in eighteen months.

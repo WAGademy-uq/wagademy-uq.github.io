@@ -1,5 +1,4 @@
 ---
-number: 6
 title: "Surviving peer review"
 subtitle: "From submission to acceptance — the process is survivable, even Reviewer 2."
 strand: "Research skills"
@@ -85,10 +84,10 @@ Copy this into a document and fill it in:
 
 Polite, specific, complete, and easy for a busy editor to check. That's the whole craft.
 
-## And that's the series
+## Where to go next
 
-Six sessions: commit out loud, protect the writing, tame the reading, make the work reproducible, manage the relationship, survive the review.
+That's the whole arc a piece of research goes through: protect the writing, tame the reading, make the work reproducible, manage the relationship, survive the review. [The other topics](/topics/) cover the rest of it.
 
 None of it requires more discipline than you already have. It requires structure — which is the thing a PhD forgets to supply, and the thing a Working Accountability Group puts back.
 
-If it was useful, the best next step is to [run one yourself](/run-your-own/). It takes a room, a timer and three other people.
+The best next step is to [run one yourself](/run-your-own/). It takes a room, a timer and three other people.

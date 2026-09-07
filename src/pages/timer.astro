@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import GoalBoard from '../components/GoalBoard.astro';
 ---
 <Base title="Pomodoro timer — WAGademy" description="The session timer used in the WAGademy rooms: three pomodoros, breaks, and a report-back, on one screen.">
   <div class="wrap">
@@ -41,6 +42,16 @@ import Base from '../layouts/Base.astro';
   </section>
 
   <div class="wrap">
+    <div class="prose">
+      <h2>What are you doing this pomodoro?</h2>
+      <p>
+        Say it before you start it. Same board as <a href="/board/">the full one</a> — it's the same
+        list, so you can set your goals there and run them here.
+      </p>
+    </div>
+
+    <GoalBoard variant="compact" />
+
     <div class="prose">
       <h2>Working alone?</h2>
       <p>
