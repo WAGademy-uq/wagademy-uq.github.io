@@ -124,7 +124,9 @@ Content is free to reuse and adapt — [CC BY 4.0](https://creativecommons.org/l
 Take the sessions, change what doesn't fit your group, and run it.
 
 The format borrows from a long tradition of structured writing retreats and shared work sessions —
-[Thèsez-vous](https://www.thesez-vous.com/), Shut Up & Write, and plenty of others. What's written
+[Thèsez-vous](https://www.thesez-vous.com/), [Shut Up & Write!](https://www.shutupwrite.com/), and
+plenty of others — and if you just want to *join* a free writing session rather than run one, Shut Up
+& Write almost certainly has one [near you or online](https://www.shutupwrite.com/events). What's written
 here is the version that survived contact with a real room, and it has been changed accordingly.
 
 If you run one somewhere else, I'd like to hear how it went.
