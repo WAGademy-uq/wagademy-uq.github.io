@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const sessions = (await getCollection('sessions')).sort((a, b) => a.data.number - b.data.number);
+  return sessions.map((entry, i) => ({
+    params: { number: String(entry.data.number) },
+    props: { entry, prev: sessions[i - 1], next: sessions[i + 1] },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+<Base title={`${d.number}. ${d.title} — WAGademy`} description={d.blurb}>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Session {d.number} · {d.strand}</p>
+      <h1>{d.title}</h1>
+      <p>{d.subtitle}</p>
+      <p class="meta">
+        <span class={`badge ${d.kind === 'hands-on' ? 'hands-on' : ''}`}>
+          {d.kind === 'hands-on' ? 'Hands-on' : 'Read + do'}
+        </span>
+        &nbsp;about {d.minutes} minutes
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <article class="prose">
+      <Content />
+
+      {d.slides && (
+        <p style="margin-top:2.5rem">
+          <a class="btn ghost" href={`/slides/${d.slides}`} download>Download the slides (.pptx)</a>
+        </p>
+      )}
+
+      <nav class="pager">
+        <span>{prev && <a href={`/sessions/${prev.data.number}/`}>← {prev.data.title}</a>}</span>
+        <span>{next && <a href={`/sessions/${next.data.number}/`}>{next.data.title} →</a>}</span>
+      </nav>
+    </article>
+  </div>
+</Base>

@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const sessions = (await getCollection('sessions')).sort((a, b) => a.data.number - b.data.number);
+---
+<Base title="All sessions — WAGademy">
+  <div class="wrap">
+    <div class="prose">
+      <p class="eyebrow">The course</p>
+      <h1>Six sessions</h1>
+      <p class="lede">
+        Each one is a short read plus something to do. They stand alone — start where your problem is.
+      </p>
+    </div>
+    <div class="grid" style="margin-top:2.5rem">
+      {sessions.map((s) => (
+        <a class="card" href={`/sessions/${s.data.number}/`}>
+          <span class="num">Session {s.data.number} · {s.data.strand} · {s.data.minutes} min</span>
+          {s.data.kind === 'hands-on' && <span class="badge hands-on" style="margin-left:.5rem">Hands-on</span>}
+          <h3>{s.data.title}</h3>
+          <p>{s.data.blurb}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

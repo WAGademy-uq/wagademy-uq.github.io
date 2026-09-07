@@ -1,0 +1,170 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Pomodoro timer — WAGademy" description="The session timer used in the WAGademy rooms: three pomodoros, breaks, and a report-back, on one screen.">
+  <div class="wrap">
+    <div class="prose">
+      <p class="eyebrow">Tool</p>
+      <h1>Session timer</h1>
+      <p class="lede">
+        The timer we put on the big screen in the room. Pick a plan, hit start, and leave it running —
+        it counts the pomodoros, the breaks and the report-back, and chimes between segments.
+      </p>
+      <p>
+        Two plans. <strong>Deep work</strong> is what we run in the room: three 50-minute blocks with
+        real breaks between them, about three hours. <strong>Classic pomodoro</strong> is the original
+        25-on, 5-off rhythm — six rounds with a long break in the middle — which suits shorter tasks,
+        a scattered day, or anyone who finds fifty minutes too long a first step.
+      </p>
+      <p>
+        The clock deliberately fades until the last five minutes of each block: knowing exactly how long
+        is left is a distraction, knowing you're nearly out of time is a prompt. It works offline once
+        loaded, and the countdown shows in the browser tab, so you can leave it running in the background.
+      </p>
+    </div>
+  </div>
+
+  <section class="timer" id="timer">
+    <h2 id="segment">Choose a session plan</h2>
+    <div id="clock">–:––</div>
+    <div id="next"></div>
+    <div class="row">
+      <button class="amber" data-plan="long">Deep work · three 50-minute blocks</button>
+      <button class="amber" data-plan="classic">Classic pomodoro · 25 on, 5 off</button>
+    </div>
+    <div class="row">
+      <button class="primary" id="startBtn">Start</button>
+      <button id="skipBtn">Skip segment</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+    <p id="plan"></p>
+  </section>
+
+  <div class="wrap">
+    <div class="prose">
+      <h2>Working alone?</h2>
+      <p>
+        This timer assumes a room full of people on the same schedule. On your own, anything that
+        boxes the time works — <a href="https://pomofocus.io/">Pomofocus</a> is a good free one with a
+        task list attached, and <a href="https://chrono.thesez-vous.org/">Chrono Thèsez-vous</a> (in French)
+        runs collective pomodoros with people around the world, which is a surprisingly good substitute
+        for a room.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .timer {
+    background: var(--green); color: var(--cream);
+    margin: 3rem 0; padding: 3rem 1.5rem 3.5rem;
+    display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+    text-align: center; transition: background .8s;
+  }
+  .timer.break { background: var(--emerald); }
+  .timer.done { background: var(--tomato); }
+  .timer h2 { color: var(--cream); margin: 0; font-size: clamp(1.4rem, 3.5vw, 2.4rem); font-weight: 400; }
+  #clock {
+    font-size: clamp(4rem, 14vw, 10rem); line-height: 1; font-weight: 700;
+    font-variant-numeric: tabular-nums; opacity: .45; transition: opacity .8s;
+  }
+  #clock.final { opacity: 1; }
+  #next { font-size: 1.15rem; opacity: .85; min-height: 1.5rem; }
+  .row { display: flex; gap: .75rem; flex-wrap: wrap; justify-content: center; }
+  .timer button {
+    font: 600 1rem/1.2 ui-sans-serif, system-ui, sans-serif;
+    padding: .7rem 1.5rem; border: none; border-radius: 2rem; cursor: pointer;
+    background: var(--cream); color: var(--ink);
+  }
+  .timer button:hover { filter: brightness(.94); }
+  .timer button.primary { background: var(--tomato); color: #fff; }
+  .timer button.amber { background: var(--amber); color: var(--ink); }
+  #plan { font-size: .9rem; opacity: .7; margin: .5rem 0 0; max-width: 46rem; }
+</style>
+
+<script is:inline>
+  (function () {
+    const PLANS = {
+      long: [
+        ['Pomodoro 1', 50], ['Break — coffee and snacks', 10],
+        ['Pomodoro 2', 50], ['Break', 10],
+        ['Pomodoro 3', 50], ['Report back', 10],
+      ],
+      classic: [
+        ['Pomodoro 1', 25], ['Break', 5],
+        ['Pomodoro 2', 25], ['Break', 5],
+        ['Pomodoro 3', 25], ['Long break — coffee and snacks', 15],
+        ['Pomodoro 4', 25], ['Break', 5],
+        ['Pomodoro 5', 25], ['Break', 5],
+        ['Pomodoro 6', 25], ['Report back', 10],
+      ],
+    };
+    let plan = null, idx = 0, remaining = 0, running = false, tick = null;
+    const $ = (id) => document.getElementById(id);
+    const box = $('timer');
+    const fmt = (s) => Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+    const disp = (s) => (s > 300 ? Math.ceil(s / 60) + ' min' : fmt(s));
+
+    function render() {
+      if (!plan) return;
+      const label = plan[idx][0];
+      $('segment').textContent = label;
+      $('clock').textContent = disp(remaining);
+      $('clock').classList.toggle('final', remaining <= 300);
+      $('next').textContent = idx + 1 < plan.length
+        ? 'Next: ' + plan[idx + 1][0] + ' (' + plan[idx + 1][1] + ' min)'
+        : 'Last segment — then you are done.';
+      box.className = 'timer' + (/break/i.test(label) ? ' break' : '');
+      $('startBtn').textContent = running ? 'Pause' : 'Start';
+      document.title = disp(remaining) + ' · ' + label;
+    }
+    function load(name) {
+      plan = PLANS[name]; idx = 0; remaining = plan[0][1] * 60; running = false;
+      clearInterval(tick);
+      $('plan').textContent = plan.map((p) => p[0] + ' (' + p[1] + 'm)').join('  →  ');
+      render();
+    }
+    function step() {
+      remaining--;
+      if (remaining < 0) { beep(); idx++; if (idx >= plan.length) return finish(); remaining = plan[idx][1] * 60; }
+      render();
+    }
+    function finish() {
+      clearInterval(tick); running = false; box.className = 'timer done';
+      $('segment').textContent = 'Session complete';
+      $('clock').textContent = '🍅';
+      $('next').textContent = 'Move your goals to Done. Nicely worked.';
+      document.title = 'Session complete · WAGademy';
+    }
+    function beep() {
+      try {
+        const c = new (window.AudioContext || window.webkitAudioContext)();
+        [0, 0.35, 0.7].forEach((t) => {
+          const o = c.createOscillator(), g = c.createGain();
+          o.connect(g); g.connect(c.destination); o.frequency.value = 880;
+          g.gain.setValueAtTime(0.4, c.currentTime + t);
+          g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + t + 0.3);
+          o.start(c.currentTime + t); o.stop(c.currentTime + t + 0.3);
+        });
+      } catch (e) {}
+    }
+    document.querySelectorAll('[data-plan]').forEach((b) =>
+      b.addEventListener('click', () => load(b.dataset.plan)));
+    $('startBtn').addEventListener('click', () => {
+      if (!plan) return;
+      running = !running; clearInterval(tick);
+      if (running) tick = setInterval(step, 1000);
+      render();
+    });
+    $('skipBtn').addEventListener('click', () => {
+      if (!plan) return;
+      beep(); idx++;
+      if (idx >= plan.length) return finish();
+      remaining = plan[idx][1] * 60; render();
+    });
+    $('resetBtn').addEventListener('click', () => {
+      if (!plan) return;
+      clearInterval(tick); running = false; idx = 0; remaining = plan[0][1] * 60; render();
+    });
+  })();
+</script>

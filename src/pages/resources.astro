@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+const groups = [
+  {
+    heading: 'Focus and timing',
+    items: [
+      ['Pomofocus', 'https://pomofocus.io/', 'Free customisable pomodoro timer with a task list attached. The best solo default.'],
+      ['Chrono Thèsez-vous', 'https://chrono.thesez-vous.org/', 'Collective pomodoros with people around the world (French). A decent substitute for a room.'],
+      ['Jardin Thèsez-vous', 'https://jardin.thesez-vous.org/', 'A pomodoro counter that grows a garden — useful for seeing that you did, in fact, do some work (French).'],
+      ['The WAGademy timer', '/timer/', 'The one from the room: three pomodoros, breaks and a report-back, on one screen.'],
+    ],
+  },
+  {
+    heading: 'Writing',
+    items: [
+      ['The hourglass method', 'https://journals.physiology.org/doi/full/10.1152/japplphysiol.00842.2024', 'A practical structure for a research paper, wide to narrow to wide.'],
+      ['Writing a research paper', 'https://bowiestate.libguides.com/academic_writing/research_paper', 'A clear, unglamorous guide to the standard sections.'],
+      ['Ten simple rules for structuring papers', 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5405644/', 'Mensh & Kording. Short, and genuinely changes how people write.'],
+      ['Thèsez-vous', 'https://www.thesez-vous.com/', 'Structured writing retreats and a large library of resources on academic writing (French).'],
+    ],
+  },
+  {
+    heading: 'Literature',
+    items: [
+      ['Zotero', 'https://www.zotero.org/', 'Free, open-source reference manager. Install it on day one, not on the bad day.'],
+      ['Connected Papers', 'https://www.connectedpapers.com/', 'Visual graph of papers related to a seed paper. Five free graphs a month.'],
+      ['SciSpace', 'https://scispace.com/', 'AI-assisted literature exploration. Useful for orientation — verify everything against the paper.'],
+      ['Research Rabbit', 'https://www.researchrabbit.ai/', 'Citation-graph exploration with alerts for new related work. Free.'],
+    ],
+  },
+  {
+    heading: 'Reproducible research',
+    items: [
+      ['The Turing Way', 'https://book.the-turing-way.org/', 'The friendliest handbook on reproducible research there is. Free and open.'],
+      ['The Good Research Code Handbook', 'https://goodresearch.dev/', 'Project structure, documentation and testing, written for researchers.'],
+      ['Software Carpentry lessons', 'https://software-carpentry.org/lessons/', 'Free, well-tested lessons on the shell, Git, R and Python.'],
+      ['GitHub Student Developer Pack', 'https://education.github.com/pack', 'Free private repositories and a pile of other tools, for students.'],
+      ['GitHub Desktop', 'https://desktop.github.com/', 'Git with buttons instead of commands. A completely legitimate way to work.'],
+    ],
+  },
+  {
+    heading: 'Supervision and peer review',
+    items: [
+      ['Thèsez-vous — la relation avec la direction', 'https://www.thesez-vous.com/ressources', 'Where the "make the implicit explicit" framing in session 5 comes from (French).'],
+      ['eLife peer review', 'https://elifesciences.org/', 'Publishes its reviews and author responses. Half an hour reading these demystifies the whole process.'],
+      ['PeerJ open review', 'https://peerj.com/', 'Also publishes review histories, across a wide range of fields.'],
+    ],
+  },
+];
+---
+<Base title="Resources — WAGademy" description="Every tool and link from the six WAGademy sessions, in one place.">
+  <div class="wrap">
+    <div class="prose">
+      <p class="eyebrow">Reference</p>
+      <h1>Resources</h1>
+      <p class="lede">Everything mentioned across the six sessions, in one place. All free, or free enough.</p>
+    </div>
+
+    {groups.map((g) => (
+      <section>
+        <h2>{g.heading}</h2>
+        <div class="grid">
+          {g.items.map(([name, href, note]) => (
+            <a class="card" href={href}>
+              <h3>{name}</h3>
+              <p>{note}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>

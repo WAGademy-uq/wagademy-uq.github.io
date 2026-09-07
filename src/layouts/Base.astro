@@ -1,0 +1,89 @@
+---
+import '../styles/global.css';
+interface Props { title: string; description?: string; }
+const { title, description = 'A six-part self-paced course on getting research work done — the ISB WAGademy Working Accountability Group, opened up for anyone.' } = Astro.props;
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/', label: 'Home' },
+  { href: '/sessions/', label: 'Sessions' },
+  { href: '/timer/', label: 'Timer' },
+  { href: '/run-your-own/', label: 'Run your own' },
+  { href: '/resources/', label: 'Resources' },
+];
+const isCurrent = (href: string) => href === '/' ? path === '/' : path.startsWith(href);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="theme-color" content="#123A2D" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%85%3C/text%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <header class="site-head">
+      <div class="wrap">
+        <a class="brand" href="/">WAG<span>ademy</span></a>
+        <nav>
+          {nav.map((n) => (
+            <a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main><slot /></main>
+    <footer class="site-foot">
+      <div class="wrap">
+        <p><strong style="color:var(--amber)">WAGademy</strong> — a Working Accountability Group for HDR students, started in the School of Biomedical Sciences at UQ and shared here so anyone can run one.</p>
+        <p>Material adapted, with thanks, from the <a href="https://www.thesez-vous.com/">Thèsez-vous</a> approach to structured writing retreats. Free to reuse and adapt.</p>
+      </div>
+    </footer>
+    <script is:inline>
+      // Make markdown task lists tickable, and remember ticks per page.
+      (function () {
+        var key = 'wagademy:' + location.pathname;
+        var boxes = document.querySelectorAll("input[type='checkbox'][disabled]");
+        if (!boxes.length) return;
+        var saved = [];
+        try { saved = JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) {}
+        boxes.forEach(function (b, i) {
+          b.disabled = false;
+          if (saved.indexOf(i) > -1) b.checked = true;
+          b.addEventListener('change', function () {
+            try {
+              var on = [];
+              boxes.forEach(function (x, j) { if (x.checked) on.push(j); });
+              localStorage.setItem(key, JSON.stringify(on));
+            } catch (e) {}
+          });
+        });
+      })();
+
+      // Copy button on every code block.
+      (function () {
+        document.querySelectorAll('pre').forEach(function (pre) {
+          var btn = document.createElement('button');
+          btn.className = 'copy';
+          btn.type = 'button';
+          btn.textContent = 'Copy';
+          btn.addEventListener('click', function () {
+            var code = pre.querySelector('code');
+            navigator.clipboard.writeText(code ? code.innerText : pre.innerText).then(function () {
+              btn.textContent = 'Copied';
+              setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+            }).catch(function () { btn.textContent = 'Press ⌘C'; });
+          });
+          var shell = document.createElement('div');
+          shell.className = 'pre-shell';
+          pre.parentNode.insertBefore(shell, pre);
+          shell.appendChild(pre);
+          shell.appendChild(btn);
+        });
+      })();
+    </script>
+  </body>
+</html>

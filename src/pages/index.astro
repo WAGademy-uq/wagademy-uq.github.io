@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const sessions = (await getCollection('sessions')).sort((a, b) => a.data.number - b.data.number);
+---
+<Base title="WAGademy — a self-paced course on getting research done">
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Six sessions · at your own pace</p>
+      <h1>The thesis isn't writing itself.</h1>
+      <p>
+        WAGademy started as a six-week Working Accountability Group for HDR students at UQ:
+        a themed discussion, then three hours of focused work, alongside other people doing the same.
+        This is the whole thing, written up so you can work through it alone — or run it for your own group.
+      </p>
+      <div class="btn-row">
+        <a class="btn" href="/sessions/1/">Start with session 1</a>
+        <a class="btn ghost" style="border-color:var(--cream);color:var(--cream)" href="/timer/">Open the timer</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="prose">
+      <h2>How to use this</h2>
+      <p>
+        Each session is a short read — twenty to thirty minutes — followed by something concrete to do.
+        They stand alone, so you can jump to whichever problem is currently yours. But the order isn't
+        arbitrary: session 1 sets up the goal-setting method the rest assume.
+      </p>
+      <p>
+        <a href="/sessions/4/">Session 4</a> is different. It's a hands-on walkthrough: work through it at a
+        laptop for an hour and you finish with a real project on GitHub, a sane folder structure and a README.
+      </p>
+    </div>
+
+    <h2>The six sessions</h2>
+    <div class="grid">
+      {sessions.map((s) => (
+        <a class="card" href={`/sessions/${s.data.number}/`}>
+          <span class="num">Session {s.data.number} · {s.data.minutes} min</span>
+          {s.data.kind === 'hands-on' && <span class="badge hands-on" style="margin-left:.5rem">Hands-on</span>}
+          <h3>{s.data.title}</h3>
+          <p>{s.data.blurb}</p>
+        </a>
+      ))}
+    </div>
+
+    <div class="prose">
+      <h2>The method, in three steps</h2>
+      <ol>
+        <li><strong>Commit.</strong> Say your goals out loud, and write them somewhere visible.</li>
+        <li><strong>Work.</strong> Three 50-minute pomodoros, phones away, alongside other people.</li>
+        <li><strong>Report.</strong> Did you hit it? What got in the way? No judgment — it's data.</li>
+      </ol>
+      <p>
+        That's it. Everything else on this site is detail. If you want to run this for your own group,
+        <a href="/run-your-own/">here's how</a> — it needs a room, a timer, and three other people.
+      </p>
+    </div>
+  </div>
+</Base>
