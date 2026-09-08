@@ -150,17 +150,19 @@ pre {
   font-size: 0.92rem; line-height: 1.55;
 }
 pre code { background: none; padding: 0; color: inherit; }
+/* a code block inside a callout must fit the callout, not the prose column */
+.callout pre { max-width: 100%; font-size: 0.85rem; }
 :not(pre) > code { color: #8f3b2b; }
 
-/* checklists inside callouts */
-.callout input[type='checkbox'] { margin-right: 0.4rem; }
+/* checklists inside callouts.
+   Hanging indent rather than flex: a flex li turns every inline chunk into its
+   own column, which shreds any item containing a link. */
 ul:has(> li > input[type='checkbox']) { list-style: none; padding-left: 0; }
-li:has(> input[type='checkbox']) { display: flex; gap: .6rem; align-items: flex-start; cursor: pointer; }
-input[type='checkbox'] { accent-color: var(--emerald); width: 1.05rem; height: 1.05rem; margin-top: .3rem; flex: none; }
-li:has(> input:checked) { color: var(--ink-mid); text-decoration: line-through; }
-.callout ol { padding-left: 1.25rem; }
-.callout h3 { margin-top: 0; }
-.callout .eyebrow { margin-bottom: 0.35rem; }
+li:has(> input[type='checkbox']) { display: block; padding-left: 1.7rem; cursor: pointer; }
+input[type='checkbox'] {
+  accent-color: var(--emerald); width: 1.05rem; height: 1.05rem;
+  margin: 0 0.65rem 0 -1.7rem; vertical-align: -0.15em;
+}
 
 /* badges */
 .badge {
