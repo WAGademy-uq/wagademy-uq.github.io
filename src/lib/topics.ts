@@ -2,7 +2,7 @@ import type { CollectionEntry } from 'astro:content';
 
 // Topics have no order. Keep the familiar strands together and in a sensible
 // sequence, with anything new appended alphabetically as it gets written.
-const STRAND_ORDER = ['Writing', 'Research skills', 'Career & wellbeing'];
+const STRAND_ORDER = ['Writing', 'Research skills', 'Impact & profile', 'Career & wellbeing'];
 
 const rank = (s: string) => {
   const i = STRAND_ORDER.indexOf(s);
